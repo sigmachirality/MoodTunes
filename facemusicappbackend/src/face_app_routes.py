@@ -20,15 +20,15 @@ auth_code = ""
 def contact():
     return render_template('contact.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 @app.route('/spotify')
 def welcome_message():
     global auth_code
     auth_code = request.args.get('code')
     return 'Welcome!'
-@app.route('/about')
-def about():
-    return render_template('about.html')
 
 @app.route('/test')
 def test():
