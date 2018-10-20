@@ -36,7 +36,7 @@ def get_access_token():
 Asks user to sign into our app
 """
 def sign_in():
-    scopes = 'scope=streaming%20user-modify-playback-state%20playlist-modify-private%20user-library-read%20user-top-read'
+    scopes = 'scope=streaming%20user-modify-playback-state%20playlist-modify-private%20playlist-modify-public%20user-library-read%20user-top-read'
     url = 'https://accounts.spotify.com/authorize?client_id=' + client_id +'&response_type=code&redirect_uri=http://0.0.0.0:5000' + '&' + scopes +'&show_dialog=true'
     res = requests.get(url)
 
@@ -148,7 +148,7 @@ Gets a users top tracks and stores them in a list
 """
 def get_top_tracks():
     global headers_data
-    req = requests.get('https://api.spotify.com/v1/me/top/tracks?limit=50', headers=headers_data)
+    req = requests.get('https://api.spotify.com/v1/me/top/tracks?limit=10', headers=headers_data)
     req = req.json()
     # print(req["items"][0]["id"])
     track_ids = []
@@ -158,12 +158,38 @@ def get_top_tracks():
     return track_ids
 
 
+"""
+Creates a new spotify playlist for user with recommended tracks
+"""
+def create_playlist(track_ids):
+    global headers_data
+    req_user = requests.get('https://api.spotify.com/v1/me', headers=headers_data)
+    req_user = req_user.json()
+    user_id = req_user["id"]
+    req_play = requests.post('https://api.spotify.com/v1/users/{}/playlists'.format(user_id), headers={'Authorization' : 'Bearer ' + access_token, "Content-Type": 'application/json'}, data={'name': "MoodTunes Playlist"})
+    req_play = req_play.json()
+    playlist_id = req_play["id"]
+    track_uris = []
+    for track in track_ids:
+        req_track = requests.get('https://api.spotify.com/v1/tracks/{id}.format(track_id)', headers=headers_data)
+        req_track = req_track.json()
+        track_uris.append(req_track["id"])
+    uri_string = ""
+    for uri in track_uris:
+        uri_string = uri_string + ','
+    requests.post('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers={'Authorization' : 'Bearer ' + access_token, "Content-Type": 'application/json'}, data={uri_string})
+
+        
+
+
 
 
 tracks = [{"id": '06AKEBrKUckW0KREUWRnvT'}, {"id": "6rqhFgbbKwnb9MLmUQDhG6"}]
 target_values = {'valence' : 0, 'energy': 0.8}
 new_get_access_token()
-print(get_tracks_by_attributes(find_good_seed(target_values), target_values))
+rec_tracks = get_tracks_by_attributes(find_good_seed(target_values), target_values)
+create_playlist(rec_tracks)
+
 
 
 
