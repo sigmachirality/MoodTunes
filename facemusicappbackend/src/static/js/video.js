@@ -1,9 +1,8 @@
-
 //Define object constants
 const player = document.getElementById('player');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
-const captureButton = document.getElementById('capture');
+const captureButton = document.getElementById('buttonPressed');
 const constraints = { video: true };
 //var image;
 
@@ -17,22 +16,6 @@ function ShowCam() {
     Webcam.attach('#canvas');
 }
 window.onload = ShowCam;
-
-//Hook into button event to display image to canvas
-captureButton.addEventListener('click', () => {
-    //Post imageUrl to server
-    var xmlhttp
-    Webcam.snap( function(data_uri) {
-        var form = document.getElementById('myForm');
-        var blob = dataURItoBlob(data_uri)
-        var formData = new FormData(form);
-        formData.append("file", blob);
-        xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("POST", "/emotion", false);
-        xmlhttp.send(formData);
-        document.getElementById('emotion').innerHTML = xmlhttp.response;
-    } );
-});
 
 //Convert from dataURI to blob
 function dataURItoBlob(dataURI) {
@@ -52,14 +35,33 @@ function dataURItoBlob(dataURI) {
         ia[i] = byteString.charCodeAt(i);
     }
 
-    return new Blob([ia], {type:mimeString});
+    return new Blob([ia], { type: mimeString });
+}
+
+//Hook into button event to display image to canvas
+captureButton.addEventListener('click', onButtonClicked);
+
+function onButtonClicked(event){
+    setTimeout(function(){
+        Webcam.snap(function(data_uri) {
+            var form = document.getElementById('myForm');
+            var blob = dataURItoBlob(data_uri)
+            var formData = new FormData(form);
+            formData.append("file", blob);
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", "/emotion", false);
+            xmlhttp.send(formData);
+            document.getElementById('emotion').innerHTML = xmlhttp.response;
+            document.getElementById('emotion').style.color = "red";
+        });
+    }, 3000);
 }
 
 
 // Attach the video stream to the video element and autoplay.
 navigator.mediaDevices.getUserMedia(constraints)
     .then((stream) => {
-      player.srcObject = stream;
+        player.srcObject = stream;
     });
 
 /*function postImage () {
@@ -68,3 +70,25 @@ navigator.mediaDevices.getUserMedia(constraints)
     Http.open("POST", url);
     Http.send();
 }*/
+
+function showVideo() {
+    document.getElementById("captureVideo").style.display = "block";
+    document.getElementById("hide-on-webcam").style.display = "none";
+    document.getElementById("buttonPressed").style.display = "none";
+    document.getElementById("captureVideo").style.marginTop = "50px";
+    document.getElementById("canvas").style.display ="none";
+}
+
+/*//Hook into button event to display image to canvas
+captureButton.addEventListener('click', () => {
+    //Post imageUrl to server
+    Webcam.snap(function(data_uri) {
+        var form = document.getElementById('myForm');
+        var blob = dataURItoBlob(data_uri)
+        var formData = new FormData(form);
+        formData.append("file", blob);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "/");
+        xmlhttp.send(formData);
+    });
+});*/

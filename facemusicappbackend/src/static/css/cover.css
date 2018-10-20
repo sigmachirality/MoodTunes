@@ -110,6 +110,19 @@ body {
     font-weight: 700;
 }
 
+#captureVideo, #canvas
+{
+    display: none;
+    
+}
+
+#result{
+    font-size: 1.2em;
+}
+#emotion{
+    font-size: 1.5em;
+}
+
 
 /*
  * Footer
