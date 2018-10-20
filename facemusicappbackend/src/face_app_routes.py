@@ -12,8 +12,8 @@ face_img = None
 
 @app.route('/')
 def welcome_message():
-    send_face()
-    return
+    faces = send_face()
+    return str(faces)
 
 
 """
@@ -36,3 +36,25 @@ def send_face():
     img_url = 'https://raw.githubusercontent.com/Microsoft/Cognitive-Face-Windows/master/Data/detection1.jpg'
     faces = cf.face.detect(img_url)
     return faces
+
+
+"""
+Analyzes the faces list for emotions
+"""
+def analyze_faces(faces):
+    pass
+
+
+"""
+Sends a request to spotify to recommend songs with [emotion]
+"""
+def recommend_songs(emotion):
+    pass
+
+
+"""
+Creates a new spotify playlist from the songs passed in a list
+"""
+def create_playlist(songs):
+    pass
+    
