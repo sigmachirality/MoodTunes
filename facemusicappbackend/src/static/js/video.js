@@ -21,14 +21,16 @@ window.onload = ShowCam;
 //Hook into button event to display image to canvas
 captureButton.addEventListener('click', () => {
     //Post imageUrl to server
+    var xmlhttp
     Webcam.snap( function(data_uri) {
         var form = document.getElementById('myForm');
         var blob = dataURItoBlob(data_uri)
         var formData = new FormData(form);
         formData.append("file", blob);
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("POST", "/");
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "/emotion", false);
         xmlhttp.send(formData);
+        document.getElementById('emotion').innerHTML = xmlhttp.response;
     } );
 });
 
