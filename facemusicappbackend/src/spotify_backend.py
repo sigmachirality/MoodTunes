@@ -1,7 +1,11 @@
 import requests
+import face_app_routes
 
 client_id = 'd1c6d4ce29344d8781fc4965d067f203'
 client_secret = '739bfdda44c84fd882a54e6d994ea28f'
+
+access_token = ""
+refresh_token = ""
 
 together = client_id + ':' + client_secret
 
@@ -27,7 +31,29 @@ def get_access_token():
     headers_data = {'Authorization' : 'Bearer ' + access_token}
     return access_token, headers_data
 
-access_token, headers_data = get_access_token()
+
+"""
+Asks user to sign into our app
+"""
+def sign_in():
+    scopes = 'scope=streaming%20user-modify-playback-state%20playlist-modify-private%20user-library-read%20user-top-read'
+    url = 'https://accounts.spotify.com/authorize?client_id=' + client_id +'&response_type=code&redirect_uri=http://0.0.0.0:5000' + '&' + scopes +'&show_dialog=true'
+    res = requests.get(url)
+
+
+"""
+Gets an access and refresh token from Spotify based on our app and a consenting user
+"""
+def new_get_access_token():
+    code = requests.get('http://0.0.0.0:5000/get_auth_code')
+    print(code.text)
+    token = requests.post('https://accounts.spotify.com/api/token', data={'grant_type': 'authorization_code', 'code': code.text, 'redirect_uri': 'http://0.0.0.0:5000', 'client_id': client_id, 'client_secret': client_secret})
+    global access_token, refresh_token, headers_data
+    token = token.json()
+    access_token = token["access_token"]
+    refresh_token = token["refresh_token"]
+    headers_data = {'Authorization' : 'Bearer ' + access_token}
+    return access_token, headers_data
 
 """
 Gets the text version of a spotify track from its track id.
@@ -49,19 +75,28 @@ def get_genres():
 Gets recommendations of Spotify tracks based on 'tunable track attributes' (as defined by Spotify)
 Returns an array of tracks.
 """
-def get_tracks_by_attributes(seed_track_id, **kwargs):
-    kwargs_list = []
-    for key, value in kwargs.items():
-        kwargs_list.append(str(key) + '=' + str(value))
+def get_tracks_by_attributes(seed_track_id, target_values):
+    values_str = ''
+    for key, value in target_values.items():
+        values_str = values_str + 'target_' + str(key) + '=' + str(value) + '&'
     req = 'https://api.spotify.com/v1/recommendations?'
-    for a in kwargs_list[:-1]:
-        req = req + a + '&'
-    req = req + kwargs_list[-1]
-    req = req + seed_track_id
+    req = req + 'seed_tracks=' + seed_track_id
     global headers_data
     req = requests.get(req, headers=(headers_data))
+    req = req.json()
     tracks = req["tracks"]
-    return tracks
+    track_ids = []
+    for track in tracks:
+        track_ids.append(track["id"])
+    return track_ids
+
+"""
+Finds a good seed track, based on the user's preferences and target values.
+Returns a single track id
+"""
+def find_good_seed(target_values):
+    top = get_top_tracks()
+    return match_target(top, target_values)
 
 
 """
@@ -79,12 +114,11 @@ def get_attributes(track_id, attributes):
 
 
 """
-Scans an array of tracks, calulating deviations from target values of tunable attributes
+Scans a list of track ids, calulating deviations from target values of tunable attributes
 """
 def get_dev(tracks, target_values):
     out = {}
-    for track in tracks:
-        track_id = track["id"]
+    for track_id in tracks:
         print('Calculating deviations for track: ' + track_id)
         values = get_attributes(track_id, list(target_values.keys()))
         deviations = []
@@ -102,9 +136,9 @@ def get_dev(tracks, target_values):
 
 
 """
-Scans an array of tracks, looking for the song that best matches target attributes
+Scans a list of track ids, looking for the song that best matches target attributes
 """
-def scan_playlist(tracks, target_values):
+def match_target(tracks, target_values):
     devs = get_dev(tracks, target_values)
     return min(devs, key=devs.get)
 
@@ -113,14 +147,24 @@ def scan_playlist(tracks, target_values):
 Gets a users top tracks and stores them in a list
 """
 def get_top_tracks():
-    pass
+    global headers_data
+    req = requests.get('https://api.spotify.com/v1/me/top/tracks?limit=50', headers=headers_data)
+    req = req.json()
+    # print(req["items"][0]["id"])
+    track_ids = []
+    for track in req["items"]:
+        track_ids.append(track["id"])
+    # print(track_ids)
+    return track_ids
+
 
 
 
 tracks = [{"id": '06AKEBrKUckW0KREUWRnvT'}, {"id": "6rqhFgbbKwnb9MLmUQDhG6"}]
 target_values = {'valence' : 0, 'energy': 0.8}
-b = scan_playlist(tracks, target_values)
-print(b)
+new_get_access_token()
+print(get_tracks_by_attributes(find_good_seed(target_values), target_values))
+
 
 
 
