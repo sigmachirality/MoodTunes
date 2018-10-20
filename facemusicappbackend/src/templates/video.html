@@ -1,0 +1,16 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='webcam.js') }}"></script>
+</head>
+
+<body>
+    <video id="player" controls autoplay></video>
+    <button id="capture">Capture</button>
+    <canvas id="canvas" width=320 height=240></canvas>
+    <div id="image-wrapper"></div>
+
+    <form method="POST" enctype="multipart/form-data" id="myForm">
+    </form>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='video.js') }}"></script>
+</body>
