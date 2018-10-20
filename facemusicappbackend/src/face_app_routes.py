@@ -1,38 +1,45 @@
-from flask import Flask, request
-import cognitive_face as cf 
+from flask import Flask, request, render_template
+import requests
+import numpy as np
+from PIL import Image
+import base64
+import re
+import io
+import json
 
 app = Flask(__name__)
 
-KEY = 'cd103fed3d9f4756b1b11bf6531e844d' 
-cf.Key.set(KEY)
-BASE_URL = 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0'
-cf.BaseUrl.set(BASE_URL)
-
-face_img = None
+subscription_key = 'cd103fed3d9f4756b1b11bf6531e844d' 
+face_api_url = 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect'
 
 @app.route('/')
 def welcome_message():
-    send_face()
-    return
-
+    return render_template('video.html')
 
 """
 Gets the image of the face from post body.
 Stores the image in face_img variable.
 """
 @app.route('/', methods=['POST'])
-def get_face_image():
-    post_body = request.files
-    global face_img
-    name = ''
-    face_img = post_body[name] # Where 'name' is the name attribute given
-                               # through post request.
-    
+def get_face_data():
+    if 'file' not in request.files:
+        print('no file recieved')
+        return ''
+    file = request.files['file']
+    microsoft = get_microsoft_data(file.stream.read())
+    print(microsoft)
+    return ''
 
-"""
-Sends the face image to the face api and gets back a list of faces
-"""
-def send_face():
-    img_url = 'https://raw.githubusercontent.com/Microsoft/Cognitive-Face-Windows/master/Data/detection1.jpg'
-    faces = cf.face.detect(img_url)
+def get_microsoft_data(image):
+    headers = {
+        'Ocp-Apim-Subscription-Key': subscription_key,
+        'Content-Type': 'application/octet-stream'
+        }
+    params = {
+        'returnFaceId': 'false',
+        'returnFaceLandmarks': 'false',
+        'returnFaceAttributes': 'gender,smile,emotion'
+    }
+    response = requests.post(face_api_url, params=params, headers=headers, data=image)
+    faces = response.json()
     return faces
