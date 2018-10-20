@@ -13,8 +13,18 @@ subscription_key = 'cd103fed3d9f4756b1b11bf6531e844d'
 face_api_url = 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect'
 
 @app.route('/')
-def welcome_message():
-    return render_template('video.html')
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 """
 Gets the image of the face from post body.
