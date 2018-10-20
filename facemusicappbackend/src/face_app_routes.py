@@ -15,10 +15,17 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+auth_code = ""
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
 
+
+@app.route('/spotify')
+def welcome_message():
+    global auth_code
+    auth_code = request.args.get('code')
+    return 'Welcome!'
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -27,6 +34,9 @@ def about():
 def test():
     return render_template('video.html')
 
+@app.route('/get_auth_code')
+def get_auth_code():
+    return auth_code
 
 """
 Gets the image of the face from post body.
