@@ -7,12 +7,11 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-	
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="video.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/webcam.js') }}"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
@@ -33,19 +32,27 @@
                 </nav>
             </div>
         </header>
-		
-		<main role="main" class="inner cover">
+
+        <main role="main" class="inner cover">
             <div id="hide-on-webcam">
             <h1 class="cover-heading">How are you feeling today?</h1>
             <p class="lead">Have you ever watched that scene in the movie where the guy brings a girl home, goes over to the stereo and turns on smooth jazz… Now he just needs to give the camera ‘that look’ 😉 and AI takes care of the rest.
             </p>
+            </div>
+            <div id="captureVideo">
+                <video id="player" controls autoplay></video>
+                <canvas id="canvas" width=320 height=240></canvas>
+                <div id="image-wrapper"></div>
+                <form method="POST" enctype="multipart/form-data" id="myForm">
+                </form>
+                <p id ="result">Current emotion is: <div id="emotion"><code> Loading...</code></div></p>
             </div>
             <!-- <p>Current emotion is: <div id="emotion">Loading...</div></p> -->
 
 
             
             <p class="lead" id="buttonPressed">
-                <button onclick="window.location='https://accounts.spotify.com/authorize?client_id=d1c6d4ce29344d8781fc4965d067f203&response_type=code&redirect_uri=http://127.0.0.1:5000/recommend&scope=streaming%20user-modify-playback-state%20playlist-modify-private%20user-library-read%20user-top-read&show_dialog=true'" class="btn btn-lg btn-secondary"> <i class="fab fa-spotify"></i> Login to Spotify</button>
+                <button onclick="showVideo()" class="btn btn-lg btn-secondary">Try it Now!</button>
             </p>
         </main>
 
@@ -58,6 +65,7 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/video.js') }}"></script>
 </body>
 
 </html>

@@ -115,6 +115,9 @@ body {
     display: none;
     
 }
+#Player{
+	width: 100%;
+}
 
 #result{
     font-size: 1.2em;
