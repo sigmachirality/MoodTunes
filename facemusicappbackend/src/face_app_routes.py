@@ -53,3 +53,25 @@ def get_microsoft_data(image):
     response = requests.post(face_api_url, params=params, headers=headers, data=image)
     faces = response.json()
     return faces
+
+
+"""
+Analyzes the faces list for emotions
+"""
+def analyze_faces(faces):
+    pass
+
+
+"""
+Sends a request to spotify to recommend songs with [emotion]
+"""
+def recommend_songs(emotion):
+    pass
+
+
+"""
+Creates a new spotify playlist from the songs passed in a list
+"""
+def create_playlist(songs):
+    pass
+    
