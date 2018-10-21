@@ -33,7 +33,7 @@ tunable_attributes = [
 # """
 # def new_get_access_token():
 #     print(code.text)
-#     token = requests.post('https://accounts.spotify.com/api/token', data={'grant_type': 'authorization_code', 'code': code.text, 'redirect_uri': 'http://0.0.0.0:5000', 'client_id': client_id, 'client_secret': client_secret})
+#     token = requests.post('https://accounts.spotify.com/api/token', data={'grant_type': 'authorization_code', 'code': code.text, 'redirect_uri': 'http://moodtunesapp.com', 'client_id': client_id, 'client_secret': client_secret})
 #     global access_token, refresh_token, headers_data
 #     token = token.json()
 #     access_token = token["access_token"]

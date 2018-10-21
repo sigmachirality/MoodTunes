@@ -52,8 +52,7 @@ function onButtonClicked(event){
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("POST", "/emotion", false);
             xmlhttp.send(formData);
-            document.getElementById('emotion').innerHTML = "<button id='visualize'><code>"+xmlhttp.response+"</code></button>";
-
+            document.getElementById('emotion').innerHTML = "<button id='visualize' style='background:none!important; border:none!important; '><code>"+xmlhttp.response+"</code></button>";
             document.getElementById('visualize').addEventListener('click', onVizClicked);
         });
     }, 3000);
@@ -66,7 +65,7 @@ function onButtonClicked(event){
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("POST", "/playlist?code="+userCode, false);
             xmlhttp.send(formData);
-            document.getElementById('playlist').innerHTML = "<code><a href='" + xmlhttp.response+"'>Link</a></code>";
+            document.getElementById('playlist').innerHTML = "<code><a href='" + xmlhttp.response+"' style='color:#e83e8c; text-decoration:none;'>Link</a></code>";
     }, 6000);
 }
 

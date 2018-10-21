@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -19,6 +19,15 @@
 </head>
 
 <script>
+    if (window.performance) {
+        console.info("window.performance works fine on this browser");
+    }
+    if (performance.navigation.type == 1) {
+        console.info( "This page is reloaded" );
+    } else {
+        console.info( "This page is not reloaded");
+    }
+
     function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -27,8 +36,8 @@
     return vars;
     }
 
-    if (getUrlVars()['code'] == null){
-        window.location="http://127.0.0.1:5000/index";
+    if (getUrlVars()['code'] == null || performance.navigation.type == 1){
+        window.location="http://moodtunesapp.com/index";
     }
 </script>
 
@@ -49,7 +58,7 @@
 
         <main role="main" class="inner cover">
             <div id="hide-on-webcam">
-                <img src="logo1.png" content="images" with="100px" height="100px">
+                <img src="{{ url_for( 'static', filename='logo1.png' ) }}" content="images" with="100px" height="100px">
                 <h1 class="cover-heading">How are you feeling today?</h1>
                 <p class="lead">Have you ever watched that scene in the movie where the guy brings a girl home, goes over to the stereo and turns on smooth jazz… Now he just needs to give the camera ‘that look’ 😉 and AI takes care of the rest.
                 </p>
@@ -88,6 +97,7 @@
 
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/video.js') }}"></script>
+    
 </body>
 
 </html>
