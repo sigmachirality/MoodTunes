@@ -7,8 +7,8 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-	
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -24,34 +24,37 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand">MoodWaves</h3>
+                <h3 class="masthead-brand"><code>MoodTunes</code></h3>
                 <nav class="nav nav-masthead justify-content-center">
                     <a class="nav-link active" href="index">Home</a>
                     <a class="nav-link" href="about">How it Works</a>
-                    <a class="nav-link" href="#">Features</a>
+                    <!-- <a class="nav-link" href="#">Features</a> -->
                     <a class="nav-link" href="contact">Contact</a>
                 </nav>
             </div>
         </header>
-		
-		<main role="main" class="inner cover">
+
+        <main role="main" class="inner cover">
+
             <div id="hide-on-webcam">
-            <h1 class="cover-heading">How are you feeling today?</h1>
-            <p class="lead">Have you ever watched that scene in the movie where the guy brings a girl home, goes over to the stereo and turns on smooth jazz… Now he just needs to give the camera ‘that look’ 😉 and AI takes care of the rest.
-            </p>
+                <img src="logo1.png" content="images" with="100px" height="100px">
+                <h1 class="cover-heading">How are you feeling today?</h1>
+                <p class="lead">Have you ever watched that scene in the movie where the guy brings a girl home, goes over to the stereo and turns on smooth jazz… Now he just needs to give the camera ‘that look’ 😉 and AI takes care of the rest.
+                </p>
             </div>
             <!-- <p>Current emotion is: <div id="emotion">Loading...</div></p> -->
 
 
-            
+
             <p class="lead" id="buttonPressed">
-                <button onclick="window.location='https://accounts.spotify.com/authorize?client_id=d1c6d4ce29344d8781fc4965d067f203&response_type=code&redirect_uri=http://127.0.0.1:5000/recommend&scope=streaming%20user-modify-playback-state%20playlist-modify-private%20user-library-read%20user-top-read&playlist-modify-public&playlist-read-private&show_dialog=true'" class="btn btn-lg btn-secondary"> <i class="fab fa-spotify"></i> Login to Spotify</button>
+                <button onclick="window.location='https://accounts.spotify.com/authorize?client_id=d1c6d4ce29344d8781fc4965d067f203&response_type=code&redirect_uri=http://127.0.0.1:5000/recommend&scope=streaming%20user-modify-playback-state%20playlist-modify-private%20user-library-read%20user-top-read&show_dialog=true'"
+                    class="btn btn-lg btn-secondary"> <i class="fab fa-spotify"></i> Login to Spotify</button>
             </p>
         </main>
 
         <footer class="mastfoot mt-auto">
             <div class="inner">
-                <p>MoodWaves Team @2018</p>
+                <p>MoodTunes Team @2018</p>
                 <!-- <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p> -->
             </div>
         </footer>

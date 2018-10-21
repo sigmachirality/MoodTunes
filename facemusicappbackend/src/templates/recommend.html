@@ -37,11 +37,11 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand">MoodWaves</h3>
+                <h3 class="masthead-brand"><code>MoodTunes</code></h3>
                 <nav class="nav nav-masthead justify-content-center">
                     <a class="nav-link active" href="index">Home</a>
                     <a class="nav-link" href="about">How it Works</a>
-                    <a class="nav-link" href="#">Features</a>
+                    <!-- <a class="nav-link" href="#">Features</a> -->
                     <a class="nav-link" href="contact">Contact</a>
                 </nav>
             </div>
@@ -49,29 +49,30 @@
 
         <main role="main" class="inner cover">
             <div id="hide-on-webcam">
-            <h1 class="cover-heading">How are you feeling today?</h1>
-            <p class="lead">Have you ever watched that scene in the movie where the guy brings a girl home, goes over to the stereo and turns on smooth jazz… Now he just needs to give the camera ‘that look’ 😉 and AI takes care of the rest.
-            </p>
+                <img src="logo1.png" content="images" with="100px" height="100px">
+                <h1 class="cover-heading">How are you feeling today?</h1>
+                <p class="lead">Have you ever watched that scene in the movie where the guy brings a girl home, goes over to the stereo and turns on smooth jazz… Now he just needs to give the camera ‘that look’ 😉 and AI takes care of the rest.
+                </p>
             </div>
             <div id="captureVideo">
                 <video id="player" controls autoplay></video>
-                <canvas id="canvas" width=320 height=240></canvas>
+                <canvas id="canvas" width="320" height="240"></canvas>
                 <div id="image-wrapper"></div>
                 <form method="POST" enctype="multipart/form-data" id="myForm">
                 </form>
                 <div style="display: block">
                     <div style="display: block; float: left;">
-                        <p id ="result">Click the button below to see your mood: <div style="display: inline" id="emotion"> Loading...</div></p>
+                        <p id ="result">Click below to see your mood: <div style="display: inline" id="emotion"> Loading...</div></p>
                     </div>
                     <div style="display: block; float: right;">
-                        <p id ="result">We recommend these tunes: <div id="playlist"> Loading...</div></p>
+                        <p id ="result">Recommended playlist: <div id="playlist"> Loading...</div></p>
                     </div>
                 </div>
             </div>
             <!-- <p>Current emotion is: <div id="emotion">Loading...</div></p> -->
 
 
-            
+
             <p class="lead" id="buttonPressed">
                 <button onclick="showVideo()" class="btn btn-lg btn-secondary">Try it Now!</button>
             </p>
@@ -79,7 +80,7 @@
 
         <footer class="mastfoot mt-auto">
             <div class="inner">
-                <p>MoodWaves Team @2018</p>
+                <p>MoodTunes Team @2018</p>
                 <!-- <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p> -->
             </div>
         </footer>
