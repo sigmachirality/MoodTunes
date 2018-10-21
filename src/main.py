@@ -215,7 +215,7 @@ def get_token(request):
     auth_code = ""
     if not request.args == None:
         auth_code = request.args.get("code")
-    token = requests.post('https://accounts.spotify.com/api/token', data={'grant_type': 'authorization_code', 'code': auth_code, 'redirect_uri': 'http://moodtunesapp.com/recommend', 'client_id': sp.client_id, 'client_secret': sp.client_secret})
+    token = requests.post('https://accounts.spotify.com/api/token', data={'grant_type': 'authorization_code', 'code': auth_code, 'redirect_uri': 'https://moodtunes-220104.appspot.com/recommend', 'client_id': sp.client_id, 'client_secret': sp.client_secret})
     return token.json()["access_token"]
 
 
