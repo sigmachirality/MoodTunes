@@ -13,7 +13,10 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	
-	<link rel="stylesheet" href={{ url_for('static', filename='css/cover.css') }}>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cover.css') }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    
 </head>
 
 <body>
@@ -31,7 +34,7 @@
                         <a class="nav-link" href="index ">Home</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link active " href="about ">How it Works</a>
+                        <a class="nav-link" href="about ">How it Works</a>
                     </li>
                     <li>
                         <a class="nav-link " href="# ">Features</a>
@@ -44,25 +47,27 @@
         </nav>
     </header>
 
-    <!-- Begin page content -->
     <main role="main " class="container ">
-
-        <div class="top-buffer">
-            <h1 class="mt-5">How it works</h1>
-            <p class="lead"> MoodWaves uses Microsoft Cognitive Services, Spotify, and your own webcam. <code>Nearly every culture in the world uses music as a means of relaxation.</code> Music is also used in many sorts of worship and celebration. MoodWaves integrates the psychology of music with
-                facial recognition to put our users in a better mood.</div>
-        <div>
-            <h1 class="mt-5">Applications</h1>
-            <p class="lead"> Applications for this tech are <code>far and wide</code>, from student use, to work, to the home, to even hospitals and counselling and beyond. Grinding on studies, hacking, or writing long papers? All these involve sitting and looking at your computer for long hours
-                , which is not the most ideal and can lead to stress. Most people also enjoy listening to music when they study, but could the music they are listening to be changed to enhance their mood in a more scientific way? <code>We believe so.</code></p>
-        </div>
-        <div>
-            <h1>Goals</h1>
-            <p class="lead">By first using the API from Microsoft to analyze our user's face we gather vital information on who our user is and how they are feeling. Once we get this information we introduce query the Spotify API for a track perfect for our user's current mood. 
-                <code>MoodWaves brings together AI, music, and science to determine what music will put you in a better mood.</code>
-            </p>
-        </div>
+            <canvas id="myChart" style="margin-top: 50px;" ></canvas>
     </main>
+
+    <!-- Begin page content -->
+    <script>
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var emotions = new Chart(ctx, {
+            type: 'pie',
+            data: {
+        labels: ["Anger", "Contempt", "Disgust", "Fear", "Happiness", "Neutral", "Sadness", "Surprise"],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: ["#CC005D", "#F692C0","#F32100","#FFA698","#8FF0AC","#00B436", "#84DF00", "#D1FA95"],
+            data: {{ data | tojson}}
+        }]
+    },
+            options: {}
+        });
+    </script>
 
     <footer class="mastfoot mt-auto">
         <div class="inner ">

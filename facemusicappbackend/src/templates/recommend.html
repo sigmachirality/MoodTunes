@@ -18,6 +18,20 @@
     <link rel="stylesheet" href="{{ url_for( 'static', filename='css/cover.css' ) }}">
 </head>
 
+<script>
+    function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+    }
+
+    if (getUrlVars()['code'] == null){
+        window.location="http://127.0.0.1:5000/index";
+    }
+</script>
+
 <body class="text-center">
 
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -45,7 +59,14 @@
                 <div id="image-wrapper"></div>
                 <form method="POST" enctype="multipart/form-data" id="myForm">
                 </form>
-                <p id ="result">Current emotion is: <div id="emotion"><code> Loading...</code></div></p>
+                <div style="display: block">
+                    <div style="display: block; float: left;">
+                        <p id ="result">Click the button below to see your mood: <div style="display: inline" id="emotion"> Loading...</div></p>
+                    </div>
+                    <div style="display: block; float: right;">
+                        <p id ="result">We recommend these tunes: <div><a id="playlist"> Loading...</a></div></p>
+                    </div>
+                </div>
             </div>
             <!-- <p>Current emotion is: <div id="emotion">Loading...</div></p> -->
 

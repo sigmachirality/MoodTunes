@@ -83,6 +83,16 @@ body {
     border-bottom-color: #fff;
 }
 
+code {
+    font-size: 87.5%;
+    color: #e83e8c !important;
+    word-break: break-word;
+}
+
+.link {
+    font-size: 150%;
+}
+
 @media (min-width: 48em) {
     .masthead-brand {
         float: left;
@@ -122,7 +132,7 @@ body {
 #result{
     font-size: 1.2em;
 }
-#emotion{
+#emotion, #playlist{
     font-size: 1.5em;
 }
 

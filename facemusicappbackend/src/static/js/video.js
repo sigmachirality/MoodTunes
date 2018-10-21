@@ -41,20 +41,43 @@ function dataURItoBlob(dataURI) {
 //Hook into button event to display image to canvas
 captureButton.addEventListener('click', onButtonClicked);
 
+var blob;
 function onButtonClicked(event){
     setTimeout(function(){
         Webcam.snap(function(data_uri) {
             var form = document.getElementById('myForm');
-            var blob = dataURItoBlob(data_uri)
+            blob = dataURItoBlob(data_uri);
             var formData = new FormData(form);
             formData.append("file", blob);
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("POST", "/emotion", false);
             xmlhttp.send(formData);
-            document.getElementById('emotion').innerHTML = xmlhttp.response;
-            document.getElementById('emotion').style.color = "red";
+            document.getElementById('emotion').innerHTML = "<button id='visualize'><code>"+xmlhttp.response+"</code></button>";
+
+            document.getElementById('visualize').addEventListener('click', onVizClicked);
         });
     }, 3000);
+
+    setTimeout(function(){
+            var userCode =getUrlVars()['code'];
+            var form = document.getElementById('myForm');
+            var formData = new FormData(form);
+            formData.append("file", blob);
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", "/emotion?code="+userCode, false);
+            xmlhttp.send(formData);
+            document.getElementById('playlist').innerHTML = "<code>"+xmlhttp.response+"</code>";
+    }, 6000);
+}
+
+function onVizClicked(event){
+    var form = document.getElementById('myForm');
+    var formData = new FormData(form);
+    formData.append("file", blob);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "/visualize", false);
+    xmlhttp.send(formData);     
+    document.write(xmlhttp.responseText);
 }
 
 
@@ -77,6 +100,15 @@ function showVideo() {
     document.getElementById("buttonPressed").style.display = "none";
     document.getElementById("captureVideo").style.marginTop = "50px";
     document.getElementById("canvas").style.display ="none";
+}
+
+//Get html params from url
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
 }
 
 /*//Hook into button event to display image to canvas

@@ -70,7 +70,25 @@ def get_emotion():
         return "N/A"
     else:
         emotion = faces[0]['faceAttributes']['emotion']
+        print(emotion)
         return analyze_emotion(emotion).capitalize()
+
+"""
+Return full emotional state of user given webcam image
+"""
+@app.route('/visualize', methods=['POST'])
+def get_emotion_full():
+    if 'file' not in request.files:
+        print('no file recieved')
+        return ''
+    file = request.files['file']
+    faces = get_microsoft_data(file.stream.read())
+    if len(faces) == 0:
+        return "N/A"
+    else:
+        emotion = faces[0]['faceAttributes']['emotion']
+        return render_template('visualize.html', data=list(emotion.values()))
+
 
 """
 Send request to microsoft and return json of emotion data
