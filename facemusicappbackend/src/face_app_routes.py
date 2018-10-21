@@ -7,6 +7,8 @@ import re
 import io
 import json
 import random
+import spotify_backend as sp
+import requests
 
 app = Flask(__name__)
 
@@ -15,11 +17,6 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/recommend')
-def recommend():
-    return render_template('recommend.html')
-
-auth_code = ""
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
@@ -28,19 +25,22 @@ def contact():
 def about():
     return render_template('about.html')
 
-@app.route('/spotify')
-def welcome_message():
-    global auth_code
-    auth_code = request.args.get('code')
-    return 'Welcome!'
+def make_playlist(target_values):
+    access_token = get_token(request)
+    rec_tracks = sp.get_tracks_by_attributes(sp.find_good_seed(target_values, access_token), target_values, access_token)
+    playlist = sp.create_playlist(rec_tracks, access_token)
+    return playlist.text
+
+# @app.route('/playlist')
+# def playlist():
+#     token = get_token(request)
+#     top_tracks = sp.get_top_tracks(token)
+#     return top_tracks
 
 @app.route('/test')
 def test():
     return render_template('video.html')
 
-@app.route('/get_auth_code')
-def get_auth_code():
-    return auth_code
 
 """
 Gets the image of the face from post body.
@@ -167,15 +167,15 @@ def emotion_to_spotify(emotion):
 
 
 """
-Sends a request to spotify to recommend songs with [emotion]
+Reads the request args for an auth code, and sends to spotify for an access token
 """
-def recommend_songs(emotion):
-    pass
+def get_token(request):
+    auth_code = ""
+    if not request.args == None:
+        auth_code = request.args.get("code")
+    token = requests.post('https://accounts.spotify.com/api/token', data={'grant_type': 'authorization_code', 'code': auth_code, 'redirect_uri': 'http://0.0.0.0:5000/recommend', 'client_id': sp.client_id, 'client_secret': sp.client_secret})
+    return token.json()["access_token"]
 
 
-"""
-Creates a new spotify playlist from the songs passed in a list
-"""
-def create_playlist(songs):
-    pass
+
     
