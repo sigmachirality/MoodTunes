@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	
-	<link rel="stylesheet" href={{ url_for('static', filename='css/cover.css') }}>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href={{ url_for( 'static', filename='css/cover.css' ) }}>
 </head>
 
 <body>
@@ -21,7 +21,7 @@
     <header>
         <!-- Fixed navbar -->
         <nav class="navbar navbar-expand-md navbar-dark fixed-top">
-            <a class=" navbar-brand " href="# ">MoodWaves</a>
+            <a class=" navbar-brand " href="# ">MoodTunes</a>
             <button class="navbar-toggler " type="button " data-toggle="collapse " data-target="#navbarCollapse " aria-controls="navbarCollapse " aria-expanded="false " aria-label="Toggle navigation ">
                 <span class="navbar-toggler-icon "></span>
               </button>
@@ -33,9 +33,9 @@
                     <li class="nav-item ">
                         <a class="nav-link active " href="about ">How it Works</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a class="nav-link " href="# ">Features</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link " href="contact ">Contact</a>
                     </li>
@@ -50,7 +50,8 @@
         <div class="top-buffer">
             <h1 class="mt-5">How it works</h1>
             <p class="lead"> MoodWaves uses <code>Webcam, Spotify, and (possibly) FitBit.</code> Nearly every culture in the world uses music as a means of calming. Music is used in many sorts of worship and celebration. MoodWaves integrates the psychology of music with
-                facial recognition and puts our users in a better mood.</div>
+                facial recognition and puts our users in a better mood.</p>
+        </div>
         <div>
             <h1 class="mt-5">Applications</h1>
             <p class="lead"> Applications for this tech are far and wide, from student use, to work from home, to hospitals and counselling and beyond. Grinding on studies, hacking, or writing long papers all involving sitting and looking at your computer for long hours.
@@ -58,8 +59,8 @@
         </div>
         <div>
             <h1>Goals</h1>
-            <p class="lead">By first using API from Microsoft to analyze: Emotion, Smile, Pose, and Age we gather vital information on who our user is and how they are feeling. Once we get this information we introduce Spotify API to analyze musical: Energy, Valence,
-                Tempo, Speachiness, Loudness, and Danceability. MoodWaves then merges these interfaces to determine what music will put you in a better mood.
+            <p class="lead">By first using <code>API from Microsoft</code> to analyze: Emotion, Smile, Pose, and Age we gather vital information on who our user is and how they are feeling. Once we get this information we introduce Spotify API to analyze musical: Energy,
+                Valence, Tempo, Speachiness, Loudness, and Danceability. MoodWaves then merges these interfaces to determine what music will put you in a better mood.
             </p>
         </div>
     </main>
