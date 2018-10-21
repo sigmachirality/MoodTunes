@@ -1,5 +1,5 @@
 import requests
-import face_app_routes
+import main
 import json
 
 client_id = 'd1c6d4ce29344d8781fc4965d067f203'
