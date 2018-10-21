@@ -67,7 +67,6 @@ def get_tracks_by_attributes(seed_track_id, target_values, access_token):
         values_str = values_str + 'target_' + str(key) + '=' + str(value) + '&'
     req = 'https://api.spotify.com/v1/recommendations?'
     req = req + 'seed_tracks=' + seed_track_id
-    global headers_data
     req = requests.get(req, headers={'Authorization' : 'Bearer ' + access_token})
     req = req.json()
     tracks = req["tracks"]
@@ -82,7 +81,10 @@ Returns a single track id
 """
 def find_good_seed(target_values, access_token):
     top = get_top_tracks(access_token)
-    return match_target(top, target_values, access_token)
+    if len(top) == 0:
+        return "3JIxjvbbDrA9ztYlNcp3yL"
+    else:
+        return match_target(top, target_values, access_token)
 
 
 """
@@ -157,13 +159,12 @@ def create_playlist(track_ids, access_token):
          req_track = requests.get('https://api.spotify.com/v1/tracks/' + track, headers={'Authorization' : 'Bearer ' + access_token})
          req_track = req_track.json()
          track_uris.append(req_track["uri"])
-    print(str(track_uris))
     # json_uris = {'uris': track_ids}
     # json_uris = json.dumps(json_uris)
     # for num, uri in enumerate(track_uris):
     #     pass
     playlist = requests.post('https://api.spotify.com/v1/playlists/' + playlist_id + '/tracks', headers={'Authorization' : 'Bearer ' + access_token, 'Content-Type': 'application/json'}, json={'uris': track_uris})
-    return playlist
+    return playlist_id
 
     
         

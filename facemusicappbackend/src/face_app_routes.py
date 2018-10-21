@@ -25,11 +25,14 @@ def contact():
 def about():
     return render_template('about.html')
 
-def make_playlist(target_values):
-    access_token = get_token(request)
+@app.route('/recommend')
+def recommend():
+    return render_template('recommend.html')
+
+def make_playlist(target_values, access_token):
     rec_tracks = sp.get_tracks_by_attributes(sp.find_good_seed(target_values, access_token), target_values, access_token)
     playlist = sp.create_playlist(rec_tracks, access_token)
-    return playlist.text
+    return playlist
 
 # @app.route('/playlist')
 # def playlist():
@@ -72,6 +75,27 @@ def get_emotion():
         emotion = faces[0]['faceAttributes']['emotion']
         print(emotion)
         return analyze_emotion(emotion).capitalize()
+"""
+From image generate emotion, then generate playlist from emotion
+"""
+@app.route('/playlist', methods=['POST'])
+def get_playlist():
+    access_token = get_token(request)
+    if 'file' not in request.files:
+        print('no file recieved')
+        return ''
+    file = request.files['file']
+    faces = get_microsoft_data(file.stream.read())
+    if len(faces) == 0:
+        return "www.google.com"
+    else:
+        emotion = faces[0]['faceAttributes']['emotion']
+        spotify_dict = emotion_to_spotify(analyze_emotion(emotion).capitalize())
+        playlist_id = make_playlist(spotify_dict, access_token)
+        url = requests.get('https://api.spotify.com/v1/playlists/' + playlist_id, headers={'Authorization' : 'Bearer ' + access_token})
+        url_dict = json.loads(url.text)
+        playlist_url = url_dict['external_urls']['spotify']
+        return playlist_url
 
 """
 Return full emotional state of user given webcam image
@@ -123,64 +147,64 @@ Get spotify parameters for specific emotion
 def emotion_to_spotify(emotion):
     if emotion == "Anger" or emotion == "Contempt":
         spotifyData = {
-                "Energy" : random.uniform(0.2,0.5),
-                "Valence" : random.uniform(0.6,0.8),
-                "Tempo" : random.uniform(0.0,0.3),
-                "Loudness" : random.uniform(0.3,0.5),
-                "Danceability" : random.uniform(0.1,0.6)  
+                "energy" : random.uniform(0.2,0.5),
+                "valence" : random.uniform(0.6,0.8),
+                "tempo" : random.uniform(0.0,0.3),
+                "loudness" : random.uniform(0.3,0.5),
+                "danceability" : random.uniform(0.1,0.6)  
             }
     elif emotion == "Disgust":
         spotifyData = {
-                "Energy" : random.uniform(0.2,0.6),
-                "Valence" : random.uniform(0.8,1.0),
-                "Tempo" : random.uniform(0.3,0.5),
-                "Loudness" : random.uniform(0.2,0.5),
-                "Danceability" : random.uniform(0.2,0.5)  
+                "energy" : random.uniform(0.2,0.6),
+                "valence" : random.uniform(0.8,1.0),
+                "tempo" : random.uniform(0.3,0.5),
+                "loudness" : random.uniform(0.2,0.5),
+                "danceability" : random.uniform(0.2,0.5)  
             }
     elif emotion == "Fear":
         spotifyData = {
-                "Energy" : random.uniform(0.1,0.4),
-                "Valence" : random.uniform(0.0,1.0),
-                "Tempo" : random.uniform(0.0,0.3),
-                "Loudness" : random.uniform(0.1,0.3),
-                "Danceability" : random.uniform(0.1,0.5)  
+                "energy" : random.uniform(0.1,0.4),
+                "valence" : random.uniform(0.0,1.0),
+                "tempo" : random.uniform(0.0,0.3),
+                "loudness" : random.uniform(0.1,0.3),
+                "danceability" : random.uniform(0.1,0.5)  
             }
     elif emotion == "Happiness":
         spotifyData = {
-                "Energy" : random.uniform(0.8,1.0),
-                "Valence" : random.uniform(0.0,1.0),
-                "Tempo" : random.uniform(0.5,1.0),
-                "Loudness" : random.uniform(0.4,1.0),
-                "Danceability" : random.uniform(0.7,1.0)  
+                "energy" : random.uniform(0.8,1.0),
+                "valence" : random.uniform(0.0,1.0),
+                "tempo" : random.uniform(0.5,1.0),
+                "loudness" : random.uniform(0.4,1.0),
+                "danceability" : random.uniform(0.7,1.0)  
             }
     elif emotion == "Neutral":
         spotifyData = {
-                "Energy" : random.uniform(0.6,0.9),
-                "Valence" : random.uniform(0.5,1.0),
-                "Tempo" : random.uniform(0.4,0.8),
-                "Loudness" : random.uniform(0.5,0.8),
-                "Danceability" : random.uniform(0.5,0.9)  
+                "energy" : random.uniform(0.6,0.9),
+                "valence" : random.uniform(0.5,1.0),
+                "tempo" : random.uniform(0.4,0.8),
+                "loudness" : random.uniform(0.5,0.8),
+                "danceability" : random.uniform(0.5,0.9)  
             }
     elif emotion == "Surprise":
         spotifyData = {
-                "Energy" : random.uniform(0.4,0.8),
-                "Valence" : random.uniform(0.1,1.0),
-                "Tempo" : random.uniform(0.5,0.7),
-                "Loudness" : random.uniform(0.4,0.7),
-                "Danceability" : random.uniform(0.4,0.8)  
+                "energy" : random.uniform(0.4,0.8),
+                "valence" : random.uniform(0.1,1.0),
+                "tempo" : random.uniform(0.5,0.7),
+                "loudness" : random.uniform(0.4,0.7),
+                "danceability" : random.uniform(0.4,0.8)  
             }
     elif emotion == "Sadness":
         spotifyData = {
-                "Energy" : random.uniform(0.2,0.6),
-                "Valence" : random.uniform(0.1,1.0),
-                "Tempo" : random.uniform(0.1,0.5),
-                "Loudness" : random.uniform(0.2,0.6),
-                "Danceability" : random.uniform(0.3,0.4)  
+                "energy" : random.uniform(0.2,0.6),
+                "valence" : random.uniform(0.1,1.0),
+                "tempo" : random.uniform(0.1,0.5),
+                "loudness" : random.uniform(0.2,0.6),
+                "danceability" : random.uniform(0.3,0.4)  
             }
     else:
         spotifyData = {}
-    spotifyData['Tempo'] = spotifyData['Tempo'] * 180
-    spotifyData['Loudness'] = spotifyData['Loudness'] * -70
+    spotifyData['tempo'] = spotifyData['tempo'] * 180
+    spotifyData['loudness'] = spotifyData['loudness'] * -70
     return spotifyData
 
 
@@ -191,7 +215,7 @@ def get_token(request):
     auth_code = ""
     if not request.args == None:
         auth_code = request.args.get("code")
-    token = requests.post('https://accounts.spotify.com/api/token', data={'grant_type': 'authorization_code', 'code': auth_code, 'redirect_uri': 'http://0.0.0.0:5000/recommend', 'client_id': sp.client_id, 'client_secret': sp.client_secret})
+    token = requests.post('https://accounts.spotify.com/api/token', data={'grant_type': 'authorization_code', 'code': auth_code, 'redirect_uri': 'http://127.0.0.1:5000/recommend', 'client_id': sp.client_id, 'client_secret': sp.client_secret})
     return token.json()["access_token"]
 
 

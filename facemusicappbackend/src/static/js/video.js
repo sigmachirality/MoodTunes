@@ -64,9 +64,9 @@ function onButtonClicked(event){
             var formData = new FormData(form);
             formData.append("file", blob);
             var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("POST", "/emotion?code="+userCode, false);
+            xmlhttp.open("POST", "/playlist?code="+userCode, false);
             xmlhttp.send(formData);
-            document.getElementById('playlist').innerHTML = "<code>"+xmlhttp.response+"</code>";
+            document.getElementById('playlist').innerHTML = "<code><a href='" + xmlhttp.response+"'>Link</a></code>";
     }, 6000);
 }
 
@@ -110,6 +110,7 @@ function getUrlVars() {
     });
     return vars;
 }
+
 
 /*//Hook into button event to display image to canvas
 captureButton.addEventListener('click', () => {
