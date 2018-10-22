@@ -2,15 +2,10 @@ Flask==1.0.2
 Jinja2==2.10
 numpy==1.14.5
 Pillow==5.3.0
-pylint==2.1.1
-PyMoe==1.0.6
 pyparsing==2.2.0
 python-dateutil==2.7.3
-pytz==2018.5
 requests==2.19.1
 ujson==1.35
 urllib3==1.23
 websocket-client==0.53.0
 Werkzeug==0.14.1
-wheel==0.31.1
-wrapt==1.10.11

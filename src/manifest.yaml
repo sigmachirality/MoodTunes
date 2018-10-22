@@ -1,0 +1,5 @@
+  applications:
+  - name: MoodTunes
+    random-route: true
+    memory: 256M
+    command: python3 main.py
