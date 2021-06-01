@@ -6,6 +6,6 @@ pyparsing==2.2.0
 python-dateutil==2.7.3
 requests==2.20.0
 ujson==1.35
-urllib3==1.24.2
+urllib3==1.26.5
 websocket-client==0.53.0
 Werkzeug==0.15.3
